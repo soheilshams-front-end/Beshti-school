@@ -1,0 +1,533 @@
+
+
+
+
+
+
+/* about us page */
+
+
+/* =========================================
+   رنگ‌ها و تم نئون (پالت رنگی اصلی سایت)
+   ========================================= */
+:root {
+    --primary-dark: #0A1A3C;
+    --secondary-blue: #1FB6FF;
+    --neon-orange: #FFA500;
+    --neon-blue: #1FB6FF; /* یک آبی روشن‌تر برای نئون */
+    --neon-purple: #4a2e8c; /* بنفش عمیق برای پس‌زمینه */
+    --text-light: #f0f0f0;
+    --text-dark: #333;
+    --glass-background: rgba(255, 255, 255, 0.08); /* پس‌زمینه شفاف شیشه‌ای */
+    --glass-border: rgba(255, 255, 255, 0.15); /* حاشیه شفاف شیشه‌ای */
+}
+
+/* =========================================
+   پس‌زمینه پویا و Wrapper اصلی (به‌روزرسانی شده)
+   ========================================= */
+
+body {
+    background-color: var(--primary-dark); /* رنگ پایه بدنه */
+    overflow-x: hidden;
+    overflow-y: auto; /* اگر محتوا بیشتر از ارتفاع ویوپورت بود، خود بدنه اسکرول کند */
+}
+
+/* کل محتوا را روی پس‌زمینه متحرک قرار می‌دهد */
+#main-wrapper {
+    position: relative;
+    z-index: 5; 
+    background: transparent; 
+}
+
+/* 1. ایجاد پس‌زمینه تاریک با عنصر قبل و بعد */
+.dynamic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #050E24; /* رنگ اصلی بسیار تیره */
+    overflow: hidden;
+    z-index: 1; 
+}
+
+/* 2. ایجاد دو هاله نورانی گردان */
+.dynamic-background::before,
+.dynamic-background::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px); /* ایجاد اثر نئون و هاله بیشتر */
+    opacity: 0.3; /* کمی شفاف‌تر برای ظاهری لوکس‌تر */
+    mix-blend-mode: screen; 
+    animation: pulseGlow 5s infinite alternate; /* انیمیشن نبض‌گونه */
+}
+
+/* هاله اول: آبی/بنفش */
+.dynamic-background::before {
+    background: var(--neon-purple); /* بنفش عمیق */
+    width: 500px;
+    height: 500px;
+    top: 15%;
+    left: -15%;
+    animation: rotateHalo1 40s linear infinite alternate;
+}
+
+/* هاله دوم: نارنجی/زرد */
+.dynamic-background::after {
+    background: var(--neon-orange); /* نارنجی نئونی */
+    width: 600px;
+    height: 600px;
+    bottom: 10%;
+    right: -20%;
+    animation: rotateHalo2 55s linear infinite alternate-reverse;
+}
+
+/* 3. تعریف انیمیشن چرخش و نبض */
+@keyframes rotateHalo1 {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50% { transform: translate(30vw, 40vh) rotate(180deg) scale(1.05); }
+    100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+
+@keyframes rotateHalo2 {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50% { transform: translate(-30vw, -40vh) rotate(-180deg) scale(1.05); }
+    100% { transform: translate(0, 0) rotate(-360deg) scale(1); }
+}
+
+@keyframes pulseGlow {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0.3; }
+}
+
+/* 4. اصلاح پس‌زمینه هدر و محتوا برای نمایش هاله‌ها */
+.header {
+    background: rgba(10, 26, 60, 0.6); /* شفافیت بیشتر برای دیدن پس‌زمینه */
+    backdrop-filter: blur(20px); /* بلور قوی‌تر برای اثر شیشه‌ای */
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* سایه عمیق‌تر */
+}
+
+/* =========================================
+   استایل‌های صفحه جدید: تماس با ما (جایگزین اسلایدر)
+   ========================================= */
+
+/* شبیه به فضای اشغال شده توسط <section class="hero-slider"> در index.html */
+.page-container {
+    width: 100%;
+    min-height: calc(100vh - 80px); /* 80px ارتفاع هدر */
+    padding-top: 40px; 
+    padding-bottom: 40px;
+    position: relative;
+    z-index: 10;
+    color: var(--text-light); /* رنگ متن کلی صفحه */
+}
+
+/* کانتینری برای محدود کردن عرض محتوا */
+.content-wrapper {
+    max-width: 1300px; /* عرض بیشتر */
+    margin: 0 auto;
+    padding: 0 40px; 
+    text-align: center;
+    height: 100%; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+}
+
+
+/* استایل شیشه‌ای (Glassmorphism) برای سکشن‌ها */
+.glass-section {
+    background: var(--glass-background); /* پس‌زمینه شفاف */
+    backdrop-filter: blur(15px); /* بلور شیشه‌ای */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border); /* حاشیه شفاف */
+    border-radius: 15px; /* گوشه‌های گرد */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* سایه عمیق */
+    padding: 40px;
+    margin-bottom: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* عنوان‌های بخش */
+.section-title {
+    font-size: 2.5rem; /* بزرگ‌تر */
+    font-weight: 900;
+    color: var(--text-light); /* رنگ متن روشن */
+    margin-bottom: 50px;
+    position: relative;
+    padding-bottom: 10px;
+    text-shadow: 0 0 15px rgba(var(--neon-blue), 0.5); /* سایه نئونی برای متن */
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px; /* پهن‌تر */
+    height: 5px; /* ضخیم‌تر */
+    background: linear-gradient(to right, var(--neon-orange), var(--neon-blue)); /* گرادیانت نئون */
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(var(--neon-orange), 0.7); /* سایه نئونی */
+}
+
+/* الف. استایل عنوان اصلی صفحه (Hero) */
+.page-title-hero {
+    padding: 80px 40px;
+    margin-bottom: 50px;
+    border-radius: 20px; /* گردتر */
+}
+
+.page-title-hero h1 {
+    font-size: 4rem; /* بسیار بزرگ‌تر */
+    font-weight: 900;
+    color: var(--text-light);
+    text-shadow: 0 0 20px rgba(var(--secondary-blue), 0.7); /* سایه نئونی آبی */
+    margin-bottom: 15px;
+}
+
+.page-title-hero h2 {
+    font-size: 1.8rem; /* بزرگ‌تر */
+    font-weight: 500;
+    opacity: 0.9;
+    color: var(--text-light);
+    text-shadow: 0 0 10px rgba(var(--secondary-blue), 0.5);
+}
+
+
+/* ب. استایل چیدمان Grid برای کارت‌های تماس */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* کارت‌های بزرگ‌تر */
+    gap: 40px; /* فاصله بیشتر بین کارت‌ها */
+    margin-bottom: 60px;
+}
+
+.contact-card {
+    background: var(--glass-background); /* پس‌زمینه شفاف */
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: var(--text-light);
+}
+
+.contact-card:hover {
+    transform: translateY(-8px); /* افکت هاور قوی‌تر */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(var(--neon-orange), 0.5); /* حاشیه نئونی در هاور */
+}
+
+.contact-card h4 {
+    font-size: 1.4rem; 
+    color: var(--text-light);
+    margin-top: 20px;
+    text-shadow: 0 0 10px rgba(var(--neon-blue), 0.3);
+}
+
+.lead-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-shadow: 0 0 8px rgba(var(--neon-orange), 0.3);
+}
+
+/* آیکون‌های نئونی */
+.icon-neon-blue {
+    color: var(--neon-blue); /* رنگ آبی نئونی */
+    text-shadow: 0 0 15px var(--neon-blue); /* افکت نئون */
+    filter: drop-shadow(0 0 8px var(--neon-blue)); /* فیلتر نئون */
+}
+
+/* ج. استایل نقشه گوگل */
+.map-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-top: -2rem;
+    box-shadow: 0 4px 20px rgba(105, 41, 41, 0.2);
+    border: 1px solid var(--glass-border); /* حاشیه شفاف */
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.map-address-text {
+    margin-top: 25px;
+    color: var(--text-light);
+    font-size: 1rem;
+    text-shadow: 0 0 5px rgba(var(--neon-orange), 0.2);
+}
+
+/* === ریسپانسیو === */
+@media (max-width: 992px) { /* برای تبلت‌ها */
+    .content-wrapper {
+        padding: 0 20px;
+    }
+    .glass-section {
+        padding: 30px;
+    }
+    .page-title-hero h1 {
+        font-size: 3rem;
+    }
+    .page-title-hero h2 {
+        font-size: 1.5rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .section-title::after {
+        width: 80px;
+    }
+}
+
+@media (max-width: 768px) { /* برای موبایل */
+    .content-wrapper {
+        padding: 0 15px;
+    }
+    .page-title-hero {
+        padding: 50px 20px;
+        margin-bottom: 40px;
+    }
+    .page-title-hero h1 {
+        font-size: 2.5rem;
+    }
+    .page-title-hero h2 {
+        font-size: 1.2rem;
+    }
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+    }
+    .section-title::after {
+        width: 70px;
+    }
+    .card-grid {
+        grid-template-columns: 1fr; /* کارت‌ها تک ستونه در موبایل */
+        gap: 25px;
+    }
+    .contact-card {
+        padding: 25px;
+    }
+    .map-address-text {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) { /* موبایل کوچک‌تر */
+    .page-title-hero h1 {
+        font-size: 2rem;
+    }
+    .page-title-hero h2 {
+        font-size: 1rem;
+    }
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* =========================================
+   استایل‌های صفحه جدید: تماس با ما (تک سکشن نئون و فشرده)
+   ========================================= */
+
+/* 1. تنظیمات پایه و حذف اسکرول */
+body {
+    overflow-y: hidden; /* جلوگیری از اسکرول body */
+    overflow-x: hidden;
+}
+
+/* کانتینر اصلی: ارتفاع ثابت و Flexbox */
+.page-container {
+    width: 100%;
+    height: calc(100vh - 80px); /* ارتفاع دقیق فضای اسلایدر */
+    padding: 20px; /* پدینگ کم */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+}
+
+/* Content Wrapper: فقط برای محدود کردن عرض (اگر نیاز بود) */
+.content-wrapper {
+    max-width: 1300px;
+    height: 100%; 
+    width: 100%;
+    padding: 0; 
+}
+
+
+/* 2. سکشن اصلی شیشه‌ای (Main Glass Section) */
+.glass-main-section {
+    width: 100%;
+    height: 100%;
+    
+    /* استایل‌های شیشه‌ای */
+    background: var(--glass-background);
+    backdrop-filter: blur(150px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px; 
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.3);
+    
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* جلوگیری از اسکرول داخلی ناخواسته */
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--neon-orange);
+    text-shadow: 0 0 10px rgba(var(--neon-orange), 0.7);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* 3. کانتینر چیدمان افقی (اطلاعات و نقشه) */
+.minimal-layout-container {
+    display: flex;
+    flex-grow: 1; /* این بخش کل فضای باقی‌مانده را می‌گیرد */
+    gap: 20px;
+    align-items: stretch; /* ارتفاع یکسان */
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+/* 4. پنل‌ها (اطلاعات تماس و نقشه) */
+.contact-info-panel {
+    flex-basis: 35%; /* سهم ۳۵٪ برای اطلاعات */
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    overflow: hidden;
+}
+
+.map-panel {
+    flex-basis: 65%; /* سهم ۶۵٪ برای نقشه */
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+
+
+/* 5. استایل‌های مینی‌مالیست اطلاعات تماس */
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    padding: 5px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-item i {
+    font-size: 1.2rem;
+}
+.info-item h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-light);
+    flex-shrink: 0;
+}
+.info-item .lead-text {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--neon-blue);
+}
+
+/* 6. استایل‌های نقشه */
+.map-panel .section-title {
+    text-align: center;
+}
+.map-container {
+    flex-grow: 1; /* نقشه تمام ارتفاع موجود را می‌گیرد */
+    position: relative;
+    height: 100px; 
+    min-height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.map-address-text {
+    margin-top: 5px;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+
+/* === ریسپانسیو (در موبایل چیدمان عمودی و اسکرول داخلی) === */
+@media (max-width: 992px) { 
+    .page-container {
+        padding: 10px;
+        height: auto;
+        min-height: calc(100vh - 80px);
+    }
+
+    .glass-main-section {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto; /* ⬅️ فعال شدن اسکرول داخلی در موبایل */
+    }
+    
+    .minimal-layout-container {
+        flex-direction: column; /* چیدمان عمودی در موبایل */
+        gap: 15px;
+    }
+    
+    .contact-info-panel, .map-panel {
+        flex-basis: auto;
+        min-width: auto;
+    }
+    
+    .map-container {
+        /* ارتفاع ثابت برای نقشه در موبایل */
+        height: 250px; 
+        min-height: 250px;
+    }
+}
+
+/* در فایل about.css یا style.css */
+
+.call-link, .email-link {
+    /* حذف زیرخط لینک */
+    text-decoration: none; 
+    
+    /* بازگرداندن رنگ نئون و حفظ فونت (مطابق با استایل lead-text) */
+    color: var(--neon-blue); 
+    
+    /* اضافه کردن جلوه شناور (Hover) برای تعامل‌پذیری بهتر */
+    transition: color 0.2s ease;
+}
+
+.call-link:hover, .email-link:hover {
+    /* کمی رنگ را روشن‌تر کنید یا سایه نئون را بیشتر کنید */
+    color: var(--text-light); 
+    text-shadow: 0 0 5px var(--neon-blue);
+}

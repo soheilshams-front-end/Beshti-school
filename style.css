@@ -1,0 +1,840 @@
+/* حذف هایلایت استاندارد روی همه المنت‌ها هنگام فوکوس */
+*:focus {
+    outline: none !important;
+}
+
+/* حذف لایه آبی/طوسی رنگ هنگام لمس (Mobile Tap Highlight) */
+a,
+button,
+input,
+.hamburger-menu {
+    -webkit-tap-highlight-color: transparent;
+    /* مخصوص مرورگرهای WebKit (کروم و سافاری) */
+}
+
+/* پایه */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: #F7F9FC;
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+
+.header {
+    width: 100%;
+    height: 80px;
+    background: #0A1A3C;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header-top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 30px;
+    height: 100%;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: start;
+}
+
+.logo {
+    height: 50px;
+}
+
+.school-name {
+    color: white;
+    font-size: 14px;
+    font-weight: 1000;
+}
+
+
+
+.main-nav {
+    justify-self: center;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+}
+
+.main-nav a:hover {
+    color: #FFA500;
+}
+
+
+
+
+.btn-login {
+    background: #FFA500;
+    color: white;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    justify-self: end;
+    box-shadow: 0 0 0.5rem #8f5f06;
+}
+
+/* بقیه استایل‌ها مثل هاور دکمه و آیتم‌های منو بدون تغییر می‌مانند */
+.btn-login:hover {
+    background: #FF8C00;
+}
+
+.main-nav li {
+    position: relative;
+    margin: 0 10px;
+}
+
+.main-nav a {
+    display: block;
+    padding: 14px 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 1000;
+    font-size: 16px;
+    transition: 200ms all;
+}
+
+/* =========================================
+   مگا منو (Desktop)
+   ========================================= */
+.mega-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.99);
+    border-radius: 0 0 4px 4px;
+    width: max-content;
+    min-width: 200px;
+
+    /* === ترنزیشن دسکتاپ (هاور) === */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    /* شروع از پایین‌تر */
+    transition: all 0.35s ease-out;
+    /* ترنزیشن روان */
+    /* ======================= */
+
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.379);
+    border-top: 3px solid #FFA500;
+    z-index: 1000;
+}
+
+/* نمایش مگا منو هنگام هاور در دسکتاپ */
+.has-mega:hover .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    /* حرکت به جایگاه اصلی */
+}
+
+
+
+.mega-menu .col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mega-menu .col h4 {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #0A1A3C;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.mega-menu .col a {
+    color: #555;
+    font-weight: 500;
+    padding: 6px 8px;
+    font-size: 14px;
+}
+
+.mega-menu .col a:hover {
+    color: #FFA500;
+    background: #ffa6000d;
+    transform: translateX(-5px);
+}
+
+/* ===== هیرو اسلایدر و کنترل‌ها (سایر بخش‌ها) ===== */
+.hero-slider {
+    width: 100%;
+    height: calc(100vh - 80px - 60px);
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0d2146;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.slide img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    z-index: 2;
+}
+
+.slide-bg-blur {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: blur(10px);
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.slider-controls {
+    width: 100%;
+    height: 60px;
+    background-color: #0A1A3C;
+    color: white;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 30px;
+    border-top: 4px solid #FFA500;
+}
+
+.news-box {
+    justify-self: start;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-badge {
+    background: #ff4757;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+.dots {
+    justify-self: center;
+    display: flex;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot:hover {
+    transform: scale(1.2);
+    background-color: #db9106e0;
+}
+
+
+.dot.active {
+    background: #FFA500;
+    transform: scale(1.3);
+}
+
+.info-date {
+    justify-self: end;
+    font-size: 14px;
+    font-weight: 1000;
+    opacity: 0.9;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.greeting-box {
+    justify-self: start;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    padding-right: 10px;
+}
+
+/* ===== لایت‌باکس (Modal) ===== */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.623);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    object-fit: contain;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+}
+
+@keyframes zoom {
+    from {
+        transform: translateY(-50%) scale(0.5)
+    }
+
+    to {
+        transform: translateY(-50%) scale(1)
+    }
+}
+
+/* ===== لودینگ (PRELOADER) ===== */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0A1A3C;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid;
+    border-top: 5px solid #FFA500;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* ===== کپشن اسلایدر سینمایی ===== */
+
+.slide-caption {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10;
+    width: 420px;
+    padding: 3px;
+    border-radius: 16px;
+    overflow: hidden;
+
+    opacity: 0;
+    transform: translateY(60px) scale(0.9);
+    transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.caption-content {
+    background: rgba(5, 15, 40, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 25px 30px;
+    border-radius: 14px;
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.slide-caption::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent 0deg,
+            transparent 45deg,
+            #FF8C00 130deg,
+            #1FB6FF 180deg,
+            transparent 300deg);
+    animation: border-spin 3s linear infinite;
+    z-index: 1;
+}
+
+.caption-content h3 {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    background: linear-gradient(120deg, #ffffff, #FF8C00, #ffffff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer 4s linear infinite;
+
+    opacity: 0;
+    transform: translateX(30px);
+    filter: blur(10px);
+    transition: all 0.8s ease-out;
+}
+
+.caption-content p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #d1d5db;
+    font-weight: 400;
+
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(5px);
+    transition: all 0.8s ease-out;
+
+}
+
+
+
+
+.slide.active .slide-caption {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition-delay: 0.2s;
+}
+
+.slide.active .caption-content h3 {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition-delay: 0.6s;
+}
+
+.slide.active .caption-content p {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition-delay: 0.8s;
+}
+
+@keyframes border-spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes text-shimmer {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* ریسپانسیو موبایل برای کپشن */
+@media (max-width: 768px) {
+    .slide-caption {
+        right: 20px;
+        left: 20px;
+        width: auto;
+        bottom: 90px;
+    }
+
+    .caption-content h3 {
+        font-size: 20px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================= */
+.hamburger-menu {
+    display: none;
+    /* در دسکتاپ مخفی */
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    color: white;
+    z-index: 999999;
+}
+
+.hamburger-menu svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- استایل جدید برای کانتینر والد --- */
+.menu-button-wrapper {
+    display: none;
+    /* ⬅️ در دسکتاپ به طور کامل پنهان است تا با Grid تداخل نکند. */
+    justify-self: end;
+    /* برای هماهنگی با چینش سمت چپ هدر */
+}
+
+/* --- .hamburger-menu باید از wrapper اصلی جدا شود --- */
+.hamburger-menu {
+    /* این استایل‌ها به صورت عمومی (غیر موبایل) حفظ می‌شوند یا حذف می‌شوند زیرا والد آن را کنترل می‌کند. */
+    /* مطمئن شوید که اینجا display: none ندارد. (توسط والد مدیریت می‌شود) */
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    color: white;
+    z-index: 999999;
+}
+
+/* --- .menu-label-mobile --- */
+.menu-label-mobile {
+    display: none;
+    /* ⬅️ به صورت پیش فرض پنهان باشد. */
+}
+
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    /* --- 1. تنظیمات هدر و منو --- */
+    .header-top {
+        grid-template-columns: auto 1fr auto;
+        padding: 0 15px;
+        gap: 15px;
+    }
+
+    .hamburger-menu {
+        display: block;
+        order: 3;
+        justify-self: end;
+    }
+
+    .logo-area {
+        order: 1;
+    }
+
+    .menu-button-wrapper {
+        display: block;
+        /* ⬅️ در موبایل نمایش داده شود. */
+        order: 3;
+        /* مطمئن شوید که هیچ خاصیت display: flex یا grid برای چیدمان داخلی ندارد */
+    }
+
+    /* ۲. تنظیم آیکون همبرگری */
+    .hamburger-menu {
+        display: block;
+        /* ⬅️ به حالت نمایش بلوکی برگردد تا span زیر آن بیاید. */
+        margin: 0 auto;
+        /* برای مرکزیت در داخل wrapper */
+        /* ... سایر استایل‌ها ... */
+    }
+
+    /* ۳. تنظیم برچسب منو */
+    .menu-label-mobile {
+        display: block;
+        /* ⬅️ به صورت بلوک نمایش داده شود تا زیر آیکون قرار گیرد. */
+        text-align: center;
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1;
+        padding-top: 2px;
+    }
+
+    .logo {
+        height: 40px;
+    }
+
+    .school-name {
+        font-size: 12px;
+        max-width: 200px;
+        line-height: 1.4;
+    }
+
+    .btn-login {
+        display: none;
+    }
+
+    /* --- منوی کشویی (Off-Canvas) --- */
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        /* خارج از صفحه */
+        width: 80%;
+        height: 100vh;
+        background: #0A1A3C;
+        padding-top: 80px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+    }
+
+    .main-nav.active {
+        right: 0;
+        /* ورود به صفحه */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-nav li {
+        margin: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* --- مگا منو در موبایل: بازنشانی (Reset) --- */
+    /* این بخش صرفاً برای بازنشانی استایل‌های دسکتاپ و آماده‌سازی برای max-height استفاده می‌شود */
+    .mega-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+        /* حفظ فاصله بین آیتم‌ها */
+        transition: none;
+        /* مهم: حذف ترنزیشن‌های قبلی */
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    /* === انیمیشن ساده باز شدن زیرمنو (کنترل جریان و انیمیشن) === */
+
+    .main-nav .mega-menu {
+        /* Flow Control: برای حذف فضای اضافی */
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 20px;
+
+        /* Visual Fade: حالت بسته */
+        opacity: 0;
+        visibility: hidden;
+
+        /* === ترنزیشن ساده و پایدار === */
+        transition: max-height 0.3s ease-in-out,
+            opacity 0.3s ease-in-out;
+
+    }
+
+    /* 2. حالت باز شدن (ساده) */
+    .main-nav .has-mega.open .mega-menu {
+        max-height: 500px;
+        /* باز شدن ارتفاع */
+        padding: 15px 20px;
+
+        opacity: 1;
+        /* نمایان شدن */
+        visibility: visible;
+    }
+
+    /* 3. اطمینان از حذف انیمیشن‌های داخلی */
+    .mega-menu h4,
+    .mega-menu .col a {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .mega-menu .col h4 {
+        color: #FFA500;
+        margin-top: 15px;
+    }
+
+    .mega-menu .col a {
+        color: #ccc;
+    }
+
+
+    /* --- 2. اسلایدر و کپشن --- */
+    .hero-slider {
+        height: calc(100vh - 80px - 60px);
+    }
+
+    .slide-caption {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        bottom: 20px;
+        padding: 2px;
+    }
+
+    .caption-content {
+        padding: 15px;
+    }
+
+    .caption-content h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .caption-content p {
+        font-size: 13px;
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+
+    /* --- 3. نوار کنترل پایین --- */
+    .slider-controls {
+        padding: 0 15px;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .greeting-box {
+        display: none;
+    }
+
+    .dots {
+        justify-self: start;
+    }
+
+    .info-date {
+        font-size: 12px;
+    }
+
+    /* --- 4. لایت باکس --- */
+    .lightbox-close {
+        right: 20px;
+        top: 60px;
+    }
+}
+
+/* =========================================
+   لایه تار کننده (Menu Overlay)
+   ========================================= */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* وضعیت پیش‌فرض: مخفی */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+
+    /* استایل‌های بصری */
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 999;
+}
+
+/* وقتی کلاس active اضافه شود (توسط JS) */
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+/* اطمینان از قرارگیری صحیح منو و دکمه */
+.main-nav {
+    z-index: 1000;
+}
+
+.hamburger-menu {
+    z-index: 1001;
+}
+
+

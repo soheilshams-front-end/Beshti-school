@@ -20,7 +20,7 @@ input,
 }
 
 body {
-    font-family: 'Vazirmatn', sans-serif;
+    font-family: 'Vazirmatn', sans-serif !important;
     background: #F7F9FC;
     direction: rtl;
     overflow-x: hidden;
@@ -1161,4 +1161,11 @@ body {
     .menu-button-wrapper {
         display: none !important; /* فعلاً مخفی طبق چیدمان درخواستی شما */
     }
+
+}
+
+
+
+body {
+    font-family: 'Vazirmatn', sans-serif !important;
 }

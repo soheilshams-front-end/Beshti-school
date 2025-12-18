@@ -27,6 +27,8 @@ body {
 }
 
 
+/* ... کدهای اولیه (Base) بدون تغییر ... */
+
 .header {
     width: 100%;
     height: 80px;
@@ -38,50 +40,50 @@ body {
 
 .header-top {
     display: grid;
+    /* Grid: فضای آزاد | نام مدرسه (وسط) | فضای آزاد + دکمه‌ها (چپ) */
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding: 0 30px;
     height: 100%;
 }
 
+/* ۱. تنظیمات لوگو و نام مدرسه (مرکز هدر) */
 .logo-area {
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-self: start;
+    /* قرارگیری در ستون دوم (وسط) */
+    grid-column: 2 / 3;
+    /* وسط‌چین کردن در ستون خود */
+    justify-self: center;
+    white-space: nowrap;
 }
 
 .logo {
     height: 50px;
 }
 
-.school-name {
-    color: white;
-    font-size: 14px;
-    font-weight: 1000;
+.logo {
+    /* ارتفاع لوگوی جدید برای دیده شدن بهتر */
+    height: 80px;
+    width: 150px;
 }
-
-
 
 .main-nav {
-    justify-self: center;
+    /* این بخش مخفی است و با grid-column کنترل نمی‌شود */
 }
 
-.main-nav ul {
-    list-style: none;
+/* ۲. تنظیمات دکمه‌ها (چپ هدر) */
+.header-actions {
+    /* قرارگیری در ستون سوم (سمت چپ) */
+    grid-column: 3 / 4;
     display: flex;
-    margin: 0;
-    padding: 0;
-
+    gap: 10px;
+    /* چسباندن کل گروه به سمت چپ (End در جهت RTL) */
+    justify-self: end;
 }
 
-.main-nav a:hover {
-    color: #FFA500;
-}
-
-
-
-
+/* ۳. اصلاح دکمه ورود کاربر (حذف مارجین مخرب) */
 .btn-login {
     background: #FFA500;
     color: white;
@@ -89,32 +91,82 @@ body {
     padding: 10px 24px;
     border-radius: 4px;
     font-weight: 800;
+    /* ❌ خطای margin-left: -45rem; حذف شد */
     font-size: 16px;
     transition: all 0.2s ease;
-    justify-self: end;
+    /* ❌ خطای justify-self: end; حذف شد */
     box-shadow: 0 0 0.5rem #8f5f06;
 }
 
-/* بقیه استایل‌ها مثل هاور دکمه و آیتم‌های منو بدون تغییر می‌مانند */
 .btn-login:hover {
-    background: #FF8C00;
+    color: #0A1A3C;
 }
 
-.main-nav li {
-    position: relative;
-    margin: 0 10px;
-}
-
-.main-nav a {
-    display: block;
-    padding: 14px 10px;
-    color: white;
+/* --- استایل دکمه "ورود به سایت" --- */
+.btn-neon-site {
+    background: transparent;
+    border: 1px solid var(--neon-orange, #FFA500);
+    color: var(--neon-orange, #FFA500) !important;
     text-decoration: none;
-    font-weight: 1000;
+    padding: 10px 42px;
+    border-radius: 4px;
+    font-weight: 800;
     font-size: 16px;
-    transition: 200ms all;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 4px var(--neon-orange, #FFA500);
 }
 
+.btn-neon-site:hover {
+    background: var(--neon-orange, #FFA500);
+    color: #0A1A3C !important;
+    box-shadow: 0 0 0.5rem #8f5f06;
+}
+
+
+/* --- ریسپانسیو (برای موبایل) --- */
+@media (max-width: 650px) {
+
+    /* در موبایل، چیدمان Grid به حالت قبلی بر می‌گردد تا لوگو در راست و دکمه‌ها در چپ باشند */
+    .header-top {
+        grid-template-columns: auto 1fr auto;
+        padding: 0 15px;
+        gap: 15px;
+    }
+
+    .logo-area {
+        /* در موبایل، لوگو به ستون اول و راست می‌آید */
+        grid-column: 1 / 2;
+        justify-self: start;
+    }
+
+    .header-actions {
+        /* در موبایل، به ستون سوم می‌رود */
+        grid-column: 3 / 4;
+        justify-self: end;
+        gap: 5px;
+        /* فاصله کمتر بین دکمه‌ها */
+    }
+
+    /* مخفی کردن دکمه‌های ورود کاربر/سایت در موبایل و نمایش دکمه همبرگری */
+    .header-actions .btn-login,
+    .header-actions .btn-neon-site {
+        display: none;
+    }
+
+    .menu-button-wrapper {
+        display: flex;
+        /* نمایش دکمه همبرگری */
+    }
+}
+
+/* --- استایل دسکتاپ .menu-button-wrapper: باید مخفی شود --- */
+@media (min-width: 651px) {
+    .menu-button-wrapper {
+        display: none;
+    }
+}
+
+/* ... سایر استایل‌های منوی درختی (Tree Menu) بدون تغییر ... */
 /* =========================================
    مگا منو (Desktop)
    ========================================= */
@@ -417,43 +469,33 @@ body {
     bottom: 10px;
     right: 10px;
     z-index: 10;
-    width: 420px;
+    display: inline-flex;
     padding: 3px;
     border-radius: 16px;
     overflow: hidden;
-
     opacity: 0;
     transform: translateY(60px) scale(0.9);
     transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .caption-content {
-    background: rgba(5, 15, 40, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(5, 15, 40, 0.264);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 25px 30px;
     border-radius: 14px;
     position: relative;
     z-index: 2;
-    height: 100%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    /* 🛠️ اصلاح حیاتی ۲: حذف عرض ۱۰۰% */
+    /* width: 100%; <-- حذف شد */
+
+
+    /* تنظیم فلکس برای چیدمان عمودی h3 و p */
+    display: flex;
+    flex-direction: column;
 }
 
-.slide-caption::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent 0deg,
-            transparent 45deg,
-            #FF8C00 130deg,
-            #1FB6FF 180deg,
-            transparent 300deg);
-    animation: border-spin 3s linear infinite;
-    z-index: 1;
-}
+
 
 .caption-content h3 {
     font-size: 26px;
@@ -465,6 +507,9 @@ body {
     -webkit-text-fill-color: transparent;
     animation: text-shimmer 4s linear infinite;
 
+    /* 🛠️ اصلاح حیاتی ۳: جلوگیری از شکستن خط */
+    white-space: nowrap;
+
     opacity: 0;
     transform: translateX(30px);
     filter: blur(10px);
@@ -474,14 +519,16 @@ body {
 .caption-content p {
     font-size: 15px;
     line-height: 1.8;
-    color: #d1d5db;
+    color: #ffffff;
     font-weight: 400;
+
+    /* 🛠️ اصلاح حیاتی ۴: جلوگیری از شکستن خط */
+    white-space: nowrap;
 
     opacity: 0;
     transform: translateY(20px);
     filter: blur(5px);
     transition: all 0.8s ease-out;
-
 }
 
 
@@ -496,15 +543,15 @@ body {
 .slide.active .caption-content h3 {
     opacity: 1;
     transform: translateX(0);
-    filter: blur(0);
-    transition-delay: 0.6s;
+    filter: blur(0px);
+    transition-delay: 0.3s;
 }
 
 .slide.active .caption-content p {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
-    transition-delay: 0.8s;
+    filter: blur(0px);
+    transition-delay: 0.4s;
 }
 
 @keyframes border-spin {
@@ -524,8 +571,20 @@ body {
     .slide-caption {
         right: 20px;
         left: 20px;
+        /* بازگشت به حالت عرض کامل برای موبایل */
         width: auto;
+        /* اضافه کردن max-width برای جلوگیری از خروج از دید */
+        max-width: calc(100% - 40px);
+
         bottom: 90px;
+    }
+
+    /* ⚠️ برای موبایل، باید اجازه دهیم متن بشکند، وگرنه از صفحه خارج می‌شود. 
+       اگر اصرار به یک خطی بودن دارید، این بخش را حذف کنید اما باکس از صفحه خارج خواهد شد. */
+    .caption-content h3,
+    .caption-content p {
+        white-space: normal;
+        /* اجازه شکستن خط در موبایل */
     }
 
     .caption-content h3 {
@@ -644,102 +703,7 @@ body {
         display: none;
     }
 
-    /* --- منوی کشویی (Off-Canvas) --- */
-    .main-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        /* خارج از صفحه */
-        width: 80%;
-        height: 100vh;
-        background: #0A1A3C;
-        padding-top: 80px;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1000;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
-        overflow-y: auto;
-    }
 
-    .main-nav.active {
-        right: 0;
-        /* ورود به صفحه */
-    }
-
-    .main-nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .main-nav li {
-        margin: 15px 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    /* --- مگا منو در موبایل: بازنشانی (Reset) --- */
-    /* این بخش صرفاً برای بازنشانی استایل‌های دسکتاپ و آماده‌سازی برای max-height استفاده می‌شود */
-    .mega-menu {
-        position: static;
-        box-shadow: none;
-        border: none;
-        background: transparent;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 8px;
-        /* حفظ فاصله بین آیتم‌ها */
-        transition: none;
-        /* مهم: حذف ترنزیشن‌های قبلی */
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-    }
-
-    /* === انیمیشن ساده باز شدن زیرمنو (کنترل جریان و انیمیشن) === */
-
-    .main-nav .mega-menu {
-        /* Flow Control: برای حذف فضای اضافی */
-        max-height: 0;
-        overflow: hidden;
-        padding: 0 20px;
-
-        /* Visual Fade: حالت بسته */
-        opacity: 0;
-        visibility: hidden;
-
-        /* === ترنزیشن ساده و پایدار === */
-        transition: max-height 0.3s ease-in-out,
-            opacity 0.3s ease-in-out;
-
-    }
-
-    /* 2. حالت باز شدن (ساده) */
-    .main-nav .has-mega.open .mega-menu {
-        max-height: 500px;
-        /* باز شدن ارتفاع */
-        padding: 15px 20px;
-
-        opacity: 1;
-        /* نمایان شدن */
-        visibility: visible;
-    }
-
-    /* 3. اطمینان از حذف انیمیشن‌های داخلی */
-    .mega-menu h4,
-    .mega-menu .col a {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
-
-    .mega-menu .col h4 {
-        color: #FFA500;
-        margin-top: 15px;
-    }
-
-    .mega-menu .col a {
-        color: #ccc;
-    }
 
 
     /* --- 2. اسلایدر و کپشن --- */
@@ -837,4 +801,364 @@ body {
     z-index: 1001;
 }
 
+/* ===== مگا منوی وسط صفحه ===== */
 
+.mega-container {
+    width: 1100px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+
+
+.mega-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.mega-tab {
+    background: #0A1A3C;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mega-tab:hover {
+    background: #FFA500;
+    color: #0A1A3C;
+}
+
+.mega-box {
+    background: #ffffff;
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+    border-top: 4px solid #FFA500;
+    margin-top: -3.5rem;
+}
+
+.mega-col h4 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0A1A3C;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #FFA500;
+    padding-bottom: 6px;
+}
+
+.mega-col ul {
+    list-style: none;
+}
+
+.mega-col ul li {
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.mega-col ul li a {
+    color: #333;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.mega-col ul li a:hover {
+    color: #FFA500;
+    padding-right: 5px;
+}
+
+/* === موبایل === */
+@media(max-width: 900px) {
+    .mega-container {
+        width: 95%;
+    }
+
+    .mega-box {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 600px) {
+    .mega-tabs {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mega-tab {
+        width: 100%;
+    }
+
+    .mega-box {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== بک‌گراند متحرک موجی (Dynamic Waves) ===== */
+.mega-background {
+    position: fixed;
+    inset: 0;
+    background: #081427;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.mega-background::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 50% 120%, #0A1A3C 20%, transparent 60%),
+        radial-gradient(circle at 80% -20%, #ff8c0033, transparent 60%),
+        linear-gradient(120deg, #07101f, #0A1A3C, #07101f);
+    animation: waveMove 16s infinite alternate ease-in-out;
+    filter: blur(30px);
+    opacity: 0.95;
+}
+
+@keyframes waveMove {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        transform: translateY(-10%) scale(1.2);
+    }
+}
+
+
+/* ===== زیرمنوی سطح سه ===== */
+.has-sub { position: relative; }
+
+.has-sub > a::after {
+    content: "▸";
+    font-size: 12px;
+    margin-right: 6px;
+    opacity: 0.7;
+    transition: 0.2s;
+}
+
+.has-sub:hover > a::after {
+    opacity: 1;
+    transform: translateX(-3px);
+}
+
+.sub-menu {
+    position: absolute;
+    right: 75%;
+    top: 0;
+    
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border-radius: 14px;
+    padding: 15px 20px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 
+        0 0 20px rgba(0, 0, 0, 0.25),
+        inset 0 0 8px rgba(255, 255, 255, 0.05);
+    border-top: 3px solid #FFA500;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+
+
+.has-sub:hover .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+
+
+
+
+/* ===== ریسپانسیو ===== */
+@media(max-width: 1100px) { .mega-container { width: 95%; } .mega-box { grid-template-columns: repeat(3, 1fr); } }
+@media(max-width: 700px) { .mega-box { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width: 500px) { .mega-box { grid-template-columns: 1fr; } }
+
+
+
+
+
+.sub-menu li a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transform: translateX(0);
+
+}
+
+.sub-menu li a:hover {
+    background: #FFA500;
+    color: #0A1A3C; /* کمی روشن‌تر */
+    border-right: 3px solid #0A1A3C ;
+}
+
+
+.sub-menu {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+
+@media (max-width: 768px) {
+
+    .header {
+        height: 70px;
+    }
+
+    .header-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .logo-area {
+        justify-content: center;
+        grid-column: unset;
+    }
+
+    .logo {
+        height: 80px;
+        width: auto;
+    }
+
+    .sub-menu{
+        margin-right: -5.5rem;
+        
+    }
+
+.sub-menu li a:hover {
+    color: #0A1A3C !important;
+    font-weight: 700;
+}
+
+}
+
+
+.sub-menu li a:hover {
+    color: #0A1A3C !important;
+    font-weight: 700;
+}
+
+
+.header-top {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-items: center;
+    padding: 0 30px;
+    height: 100%;
+}
+
+/* نام مدرسه - سمت راست */
+.school-title {
+    justify-self: start;
+    font-size: 18px;
+    font-weight: 1000;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+/* لوگوتایپ - دقیقاً وسط */
+.logo-area {
+    justify-self: center;
+    margin-right: -9rem;
+}
+
+/* دکمه ورود - سمت چپ */
+.header-actions {
+    justify-self: end;
+}
+
+
+@media (max-width: 768px) {
+
+    .school-title,
+    .header-actions {
+        display: none;
+    }
+
+    .header-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo {
+        height: 65px;
+        margin-right: 9rem;
+    }
+}
+
+
+/* =========================================
+   اصلاح چیدمان هدر در حالت موبایل
+   ========================================= */
+@media (max-width: 768px) {
+    .header {
+        height: 70px; /* کمی کوتاه‌تر برای موبایل */
+    }
+
+    .header-top {
+        display: flex !important; /* تبدیل گرید به فلکس برای کنترل بهتر */
+        flex-direction: row;
+        justify-content: space-between; /* ایجاد فاصله بین لوگو و دکمه */
+        align-items: center;
+        padding: 0 15px;
+        height: 100%;
+    }
+
+    /* ۱. لوگو تایپ سمت راست قرار بگیرد */
+    .logo-area {
+        order: 1; 
+        display: flex;
+        justify-content: flex-start;
+        flex: 1;
+    }
+
+    .logo.custom-logo {
+        height: 55px; /* تنظیم سایز لوگو برای موبایل */
+        width: auto;
+    }
+
+    /* ۲. دکمه ورود سمت چپ قرار بگیرد */
+    .header-actions {
+        display: flex !important; /* نمایش مجدد دکمه که قبلاً display: none بود */
+        order: 2;
+        justify-content: flex-end;
+        flex: 1;
+    }
+
+    .btn-neon-site {
+       display: block !important; 
+       padding: 10px 24px;
+    }
+
+    /* ۳. مخفی کردن متن نام مدرسه در موبایل برای باز شدن فضا */
+    .school-title {
+        display: none !important;
+    }
+
+    /* ۴. تنظیم دکمه همبرگری (اگر در این صفحه نیاز دارید) */
+    .menu-button-wrapper {
+        display: none !important; /* فعلاً مخفی طبق چیدمان درخواستی شما */
+    }
+}

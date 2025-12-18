@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // =================================================================
-    // ۱. انتخاب المان‌ها (بدون تغییر)
+    // ۱. انتخاب المان‌ها
     // =================================================================
     const slides = document.querySelectorAll(".slide");
     const dots = document.querySelectorAll(".dot");
     const dateElement = document.getElementById('current-jalali-date'); 
     const greetingElement = document.getElementById('dynamic-greeting');
-    const lightbox = document.getElementById('image-lightbox');
+    // المان‌های زیر ممکن است در menu.html وجود نداشته باشند
+    const lightbox = document.getElementById('image-lightbox'); 
     const lightboxImg = document.querySelector('.lightbox-content');
     const closeBtn = document.querySelector('.lightbox-close');
     const sliderImages = document.querySelectorAll('.slide > img'); 
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     // =================================================================
-    // ۲. تابع اصلی: دریافت زمان از API جدید timeapi.io
+    // ۲. تابع اصلی: دریافت زمان از API 
     // =================================================================
     async function fetchAndUpdateTime() {
         // === آدرس API جدید: timeapi.io ===
@@ -76,62 +77,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // =================================================================
-    // ۳. منطق اسلایدر و دات‌ها (بدون تغییر)
+    // ۳. منطق اسلایدر و لایت‌باکس (فقط در صورت وجود اسلایدها اجرا شود)
     // =================================================================
-    function showSlide(i) {
-        slides.forEach(s => s.classList.remove("active"));
-        dots.forEach(d => d.classList.remove("active"));
-        slides[i].classList.add("active");
-        dots[i].classList.add("active");
-    }
-
-    function nextSlide() {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-    }
-
-    let slideInterval = setInterval(nextSlide, 5000);
-
-    dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => {
-            index = i;
-            showSlide(i);
-            
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 5000);
-        });
-    });
-
-
-    // =================================================================
-    // ۴. منطق لایت‌باکس (بدون تغییر)
-    // =================================================================
-    sliderImages.forEach(img => {
-        img.addEventListener('click', function(e) {
-            e.stopPropagation();
-            lightbox.style.display = 'block';
-            lightboxImg.src = this.src; 
-        });
-    });
-
-    closeBtn.addEventListener('click', function() {
-        lightbox.style.display = 'none';
-    });
-
-    lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-            lightbox.style.display = 'none';
+    // 🎯 این شرط در menu.html به دلیل length = 0، اجرا نخواهد شد.
+    if (slides.length > 0) {
+        function showSlide(i) {
+            slides.forEach(s => s.classList.remove("active"));
+            dots.forEach(d => d.classList.remove("active"));
+            slides[i].classList.add("active");
+            dots[i].classList.add("active");
         }
-    });
-    
+
+        function nextSlide() {
+            index = (index + 1) % slides.length;
+            showSlide(index);
+        }
+
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener("click", () => {
+                index = i;
+                showSlide(i);
+                
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        });
+        
+        // منطق لایت‌باکس:
+        if (lightbox && closeBtn && sliderImages.length > 0) {
+             sliderImages.forEach(img => {
+                img.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    lightbox.style.display = 'block';
+                    lightboxImg.src = this.src; 
+                });
+            });
+
+            closeBtn.addEventListener('click', function() {
+                lightbox.style.display = 'none';
+            });
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+        }
+    }
 
 
     // =================================================================
-    // ۵. منطق پارالاکس ماوس (بدون تغییر)
+    // ۴. منطق پارالاکس ماوس (فقط در صورت وجود heroContent اجرا شود)
     // =================================================================
-    if (window.innerWidth > 768) {
-        window.addEventListener('mousemove', (e) => {
-            if (heroContent) {
+    // 🎯 این شرط در menu.html به دلیل null بودن heroContent، اجرا نخواهد شد.
+    if (heroContent) {
+        if (window.innerWidth > 768) {
+            window.addEventListener('mousemove', (e) => {
                 const centerX = window.innerWidth / 2;
                 const centerY = window.innerHeight / 2;
                 const offsetX = (e.clientX - centerX) / centerX;
@@ -144,24 +147,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     rotateX(${offsetY * -maxRotate}deg) 
                     rotateY(${offsetX * maxRotate}deg)
                 `;
-            }
-        });
-    }
-
-    if (heroContent) {
+            });
+        }
         heroContent.style.transition = 'transform 0.1s ease-out';
     }
 
 
+    // =================================================================
+    // ۵. فراخوانی‌های نهایی و تنظیم به‌روزرسانی‌های دوره‌ای
+    // =================================================================
+    // 🎯 فراخوانی API زمان فقط در صورتی که المان تاریخ وجود داشته باشد.
+    if (dateElement) { 
+        fetchAndUpdateTime(); 
+        setInterval(fetchAndUpdateTime, 300000); // به‌روزرسانی هر 5 دقیقه
+    }
+
+
+    // =================================================================
+    // ۶. منطق حذف پریلودر (باید آخرین اجرا باشد)
+    // =================================================================
+    // 🎯 کاهش تاخیر به 50 میلی‌ثانیه برای بارگذاری سریع صفحات سبک مثل menu.html
     setTimeout(() => {
         if (preloader) {
             preloader.classList.add('fade-out');
         }
-    }, 500); // 500 میلی‌ثانیه تأخیر
-    // =================================================================
-    // ۶. فراخوانی‌های نهایی و تنظیم به‌روزرسانی‌های دوره‌ای
-    // =================================================================
-    fetchAndUpdateTime(); 
-    setInterval(fetchAndUpdateTime, 300000); // به‌روزرسانی هر 5 دقیقه
+    }, 50); 
 });
 

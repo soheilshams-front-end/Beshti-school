@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دبیرستان استعدادهای درخشان شهید بهشتی</title>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
-    <meta name="theme-color" content="#FFA500">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data:;
+    connect-src 'self' https://timeapi.io;
+">
 
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="./assets/photo21863733510-removebg-preview.png">
@@ -21,11 +23,13 @@
         <div class="spinner"></div>
     </div>
 
+  
+
     <!-- هدر همانند صفحه اصلی -->
     <header class="header">
         <div class="header-top">
             <div class="logo-area">
-                <img src="./assets/photo21413026385-removebg-preview.png" alt="لوگو تایپی" class="logo custom-logo">
+                <img src="./assets/photo21413026385-removebg-preview.png" alt="لوگو تایپی" class="logo2 custom-logo">
             </div>
             <div class="header-actions">
                 <a href="https://www.beheshtikasch.ir/userindex.php" class="btn-login btn-neon-site">ورود کاربر</a>
@@ -46,8 +50,24 @@
     <!-- بک‌گراند موجی متحرک -->
     <div class="mega-background"></div>
 
+    
     <!-- مگا منوی وسط صفحه -->
+
     <main class="mega-container">
+          <div class="menu-search" id="menuSearch">
+        <div class="search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0
+        A7.5 7.5 0 1 0 5.196 5.196
+        a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+        </div>
+
+        <input type="text" class="search-input" placeholder="جستجو در منو..." />
+
+        <div class="search-results" id="searchResults"></div>
+    </div>
         <h2 class="mega-title">منوی اصلی سایت</h2>
         <div class="mega-box">
 
@@ -187,7 +207,7 @@
     <script src="app.js"></script>
     <script src="crsr.js"></script>
     <script src="responsive.js"></script>
-
+    <script src="search.js"></script>
 
 
 </body>

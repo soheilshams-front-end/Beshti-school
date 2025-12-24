@@ -20,7 +20,7 @@ input,
 }
 
 body {
-    font-family: 'Vazirmatn', sans-serif !important;
+    font-family: 'Vazirmatn', sans-serif;
     background: #F7F9FC;
     direction: rtl;
     overflow-x: hidden;
@@ -1071,10 +1071,10 @@ body {
 /* نام مدرسه - سمت راست */
 .school-title {
     justify-self: start;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 1000;
     color: #ffffff;
-    white-space: nowrap;
+    white-space: wrap;
 }
 
 /* لوگوتایپ - دقیقاً وسط */
@@ -1138,6 +1138,11 @@ body {
         height: 55px; /* تنظیم سایز لوگو برای موبایل */
         width: auto;
     }
+    .logo2 {
+        height: 60px !important; 
+        width: auto !important;
+        margin-right: 9rem !important;
+    }
 
     /* ۲. دکمه ورود سمت چپ قرار بگیرد */
     .header-actions {
@@ -1161,14 +1166,191 @@ body {
     .menu-button-wrapper {
         display: none !important; /* فعلاً مخفی طبق چیدمان درخواستی شما */
     }
+}
 
+
+@media(max-width:872px){
+    .logo.custom-logo {
+       display: none;
+    }
+    .dynamic-greeting {
+       display: none;
+    }
+
+    .caption-content{
+         max-width: calc(100% - 40px);
+    }
+    
+      .caption-content h3,
+    .caption-content p {
+        white-space: normal;
+        /* اجازه شکستن خط در موبایل */
+    }
+
+    .caption-content h3 {
+        font-size: 24px;
+    }
+
+}
+@media(max-width:428px){
+    .logo.custom-logo {
+       display: block;
+    }
+
+
+    
 }
 
 
 
-body {
-    font-family: 'Vazirmatn', sans-serif !important;
+.logo2 {
+    /* ارتفاع لوگوی جدید برای دیده شدن بهتر */
+    height: 70px;
+    width: 140px;
+    margin-right: 14rem;
 }
 
 
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    transition: background-color 0.3s ease;
+}
 
+/* حالت حرکت (کپسولی موقت) */
+.dot.move {
+    animation: capsuleMove 0.35s ease;
+}
+
+@keyframes capsuleMove {
+    0% {
+        transform: scale(1);
+        border-radius: 50%;
+    }
+    40% {
+        transform: scaleX(2.2);
+        border-radius: 999px;
+    }
+    100% {
+        transform: scale(1);
+        border-radius: 50%;
+    }
+}
+
+
+.btn-login{
+    background-color:#FFA500;
+    color: #0d2146 !important;
+}
+.btn-login:hover{
+    background-color:#0d2146;
+    color: #FFA500 !important;
+}
+
+.menu-search {
+    width: 52px;
+    height: 52px;
+    margin-top: -4rem;
+    margin-bottom: 2rem;
+    background: #FFA500;
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 16px;
+    cursor: pointer;
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(255, 166, 0, 0.337);
+    transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.menu-search.open {
+    width: 320px;
+}
+
+.search-icon {
+    width: 22px;
+    height: 22px;
+    color: #0A1A3C;
+    flex-shrink: 0;
+}
+
+.search-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    color: #0A1A3C;
+
+    opacity: 0;
+    transform: translateX(10px);
+    transition: 0.3s ease;
+}
+
+.menu-search.open .search-input {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.menu-search {
+    position: relative;
+}
+
+/* وقتی نتیجه داریم ارتفاع بیشتر میشه */
+.menu-search.has-results {
+    height:200px;
+    padding-bottom: 10px;
+}
+
+.search-results {
+    width: 10%;
+    margin-top: 10px;
+
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.menu-search.has-results .search-results {
+    display: flex;
+}
+
+/* آیتم نتیجه */
+.search-result-item {
+    background: rgba(10, 26, 60, 0.08);
+    border-radius: 10px;
+    padding: 8px 14px;
+
+    font-size: 14px;
+    color: #0A1A3C;
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.search-result-item:hover {
+    background: #0A1A3C;
+    color: #FFA500;
+}
+
+
+.search-highlight {
+    background: rgba(255, 165, 0, 0.35);
+    color: #0A1A3C;
+    font-weight: 900;
+    border-radius: 4px;
+    padding: 0 2px;
+}
